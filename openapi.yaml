@@ -58,18 +58,15 @@ definitions:
         type: "boolean"
         description: "True if you follow this project in CircleCI"
         example: true
-      first_build:
-        $ref: "#/definitions/NullableString"
+      # NOTE: I removed the first_build definition
+      # since it is hard for go-swagger to handle null values
+      # See https://github.com/go-swagger/go-swagger/issues/1601
+      # first_build:
+      #   $ref: "#/definitions/NullableString"
       workflow:
         type: "boolean"
         description: "True if a workflow is triggered"
         example: true
-  NullableString:
-    type: "string"
-    x-go-type:
-      import:
-        package: "github.com/romanyx/nullable"
-      type: "String"
   Errored:
     type: "object"
     properties: 

@@ -59,13 +59,17 @@ definitions:
         description: "True if you follow this project in CircleCI"
         example: true
       first_build:
-        type: "string"
-        x-nullable: true
-        example: null
+        $ref: "#/definitions/NullableString"
       workflow:
         type: "boolean"
         description: "True if a workflow is triggered"
         example: true
+  NullableString:
+    type: "string"
+    x-go-type:
+      import:
+        package: "github.com/romanyx/nullable"
+      type: "String"
   Errored:
     type: "object"
     properties: 

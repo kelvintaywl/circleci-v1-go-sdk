@@ -7,6 +7,7 @@ require (
 	github.com/go-openapi/runtime v0.26.0
 	github.com/go-openapi/strfmt v0.21.7
 	github.com/go-openapi/swag v0.22.4
+	github.com/romanyx/nullable v0.0.0-20180504223438-bc7ee802e139
 )
 
 require (

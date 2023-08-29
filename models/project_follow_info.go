@@ -8,8 +8,10 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/romanyx/nullable"
 )
 
 // ProjectFollowInfo project follow info
@@ -18,7 +20,7 @@ import (
 type ProjectFollowInfo struct {
 
 	// first build
-	FirstBuild *string `json:"first_build,omitempty"`
+	FirstBuild nullable.String `json:"first_build,omitempty"`
 
 	// True if you follow this project in CircleCI
 	// Example: true
@@ -31,11 +33,60 @@ type ProjectFollowInfo struct {
 
 // Validate validates this project follow info
 func (m *ProjectFollowInfo) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateFirstBuild(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this project follow info based on context it is used
+func (m *ProjectFollowInfo) validateFirstBuild(formats strfmt.Registry) error {
+	if swag.IsZero(m.FirstBuild) { // not required
+		return nil
+	}
+
+	if err := m.FirstBuild.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("first_build")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("first_build")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this project follow info based on the context it is used
 func (m *ProjectFollowInfo) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateFirstBuild(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ProjectFollowInfo) contextValidateFirstBuild(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.FirstBuild.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("first_build")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("first_build")
+		}
+		return err
+	}
+
 	return nil
 }
 

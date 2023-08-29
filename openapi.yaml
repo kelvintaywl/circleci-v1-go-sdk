@@ -1,0 +1,77 @@
+swagger: "2.0"
+info:
+  description: "This is the (unofficial) CircleCI V1.1 API for managing CircleCI resources."
+  version: "1.0.0"
+  title: "CircleCI V1.1 API"
+host: "circleci.com"
+basePath: "/api/v1.1"
+schemes:
+- "https"
+securityDefinitions:
+  api_token:
+    type: "apiKey"
+    name: "Circle-Token"
+    in: "header"
+security:
+  - api_token: []
+
+paths:
+  /project/{project-slug}/follow:
+    post:
+      tags:
+      - "project"
+      summary: "List all followed projects"
+      description: ""
+      operationId: "ListProjects"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "project-slug"
+        in: "path"
+        description: |
+          Project slug in the form vcs-slug/org-name/repo-name.
+          The / characters may be URL-escaped.
+          Example: gh/CircleCI-Public/api-preview-docs
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Project-follow information"
+          schema:
+            $ref: "#/definitions/ProjectFollowInfo"
+        "400":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Errored"
+        "404":
+          description: "Not Found"
+          schema:
+            $ref: "#/definitions/Errored"
+
+definitions:
+  ProjectFollowInfo:
+    type: "object"
+    properties: 
+      followed:
+        type: "boolean"
+        description: "True if you follow this project in CircleCI"
+        example: true
+      first_build:
+        type: "string"
+        x-nullable: true
+        example: null
+      workflow:
+        type: "boolean"
+        description: "True if a workflow is triggered"
+        example: true
+  Errored:
+    type: "object"
+    properties: 
+      message:
+        type: "string"
+        description: "Error message" 
+externalDocs:
+  description: "Find official API document for CircleCI here"
+  url: "https://circleci.com/docs/api/v1/index.html"

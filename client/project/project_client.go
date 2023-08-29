@@ -30,28 +30,28 @@ type ClientOption func(*runtime.ClientOperation)
 
 // ClientService is the interface for Client methods
 type ClientService interface {
-	ListProjects(params *ListProjectsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ListProjectsOK, error)
+	FollowProject(params *FollowProjectParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*FollowProjectOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
-ListProjects lists all followed projects
+FollowProject follows a project
 */
-func (a *Client) ListProjects(params *ListProjectsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ListProjectsOK, error) {
+func (a *Client) FollowProject(params *FollowProjectParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*FollowProjectOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewListProjectsParams()
+		params = NewFollowProjectParams()
 	}
 	op := &runtime.ClientOperation{
-		ID:                 "ListProjects",
+		ID:                 "FollowProject",
 		Method:             "POST",
 		PathPattern:        "/project/{project-slug}/follow",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
-		Reader:             &ListProjectsReader{formats: a.formats},
+		Reader:             &FollowProjectReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -64,13 +64,13 @@ func (a *Client) ListProjects(params *ListProjectsParams, authInfo runtime.Clien
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*ListProjectsOK)
+	success, ok := result.(*FollowProjectOK)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for ListProjects: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for FollowProject: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

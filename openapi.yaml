@@ -20,9 +20,9 @@ paths:
     post:
       tags:
       - "project"
-      summary: "List all followed projects"
+      summary: "Follow a project"
       description: ""
-      operationId: "ListProjects"
+      operationId: "FollowProject"
       consumes:
       - "application/json"
       produces:

@@ -22,7 +22,7 @@ type ProjectFollowInfo struct {
 
 	// True if you follow this project in CircleCI
 	// Example: true
-	Followed bool `json:"followed,omitempty"`
+	Following bool `json:"following,omitempty"`
 
 	// True if a workflow is triggered
 	// Example: true

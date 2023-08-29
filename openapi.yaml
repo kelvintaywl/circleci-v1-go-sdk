@@ -54,7 +54,7 @@ definitions:
   ProjectFollowInfo:
     type: "object"
     properties: 
-      followed:
+      following:
         type: "boolean"
         description: "True if you follow this project in CircleCI"
         example: true
